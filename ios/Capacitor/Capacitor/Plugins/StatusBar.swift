@@ -35,12 +35,25 @@ public class CAPStatusBarPlugin: CAPPlugin {
     call.unimplemented()
   }
   
+  func setAnimation(_ call: CAPPluginCall) {
+    let animation = call.getString("animation", "SLIDE")
+    if animation == "FADE" {
+      bridge.setStatusBarAnimation(.fade)
+    } else if animation == "SLIDE" {
+      bridge.setStatusBarAnimation(.slide)
+    } else if animation == "NONE" {
+      bridge.setStatusBarAnimation(.none)
+    }
+  }
+  
   @objc func hide(_ call: CAPPluginCall) {
+    setAnimation(call)
     bridge.setStatusBarVisible(false)
     call.success()
   }
   
   @objc func show(_ call: CAPPluginCall) {
+    setAnimation(call)
     bridge.setStatusBarVisible(true)
     call.success()
   }
